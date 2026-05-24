@@ -174,20 +174,6 @@
       padding: 76px 0 82px;
     }
 
-    .pill-label {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 28px;
-      padding: 7px 14px;
-      border-radius: var(--radius-pill);
-      background: var(--surface-strong);
-      color: var(--primary);
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1.4;
-      text-transform: uppercase;
-    }
-
     h1,
     h2 {
       margin: 0;
@@ -272,6 +258,10 @@
       color: var(--body);
       font-size: 17px;
       line-height: 1.65;
+    }
+
+    .copy-align-title {
+      margin-top: 39px;
     }
 
     .features {
@@ -465,6 +455,10 @@
         gap: 30px;
       }
 
+      .copy-align-title {
+        margin-top: 0;
+      }
+
       .feature-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -510,10 +504,6 @@
       .hero-content {
         width: 100%;
         padding: 70px 0 56px;
-      }
-
-      .pill-label {
-        margin-bottom: 22px;
       }
 
       h1 {
@@ -599,7 +589,6 @@
       <img class="hero-media" src="assets/hero-context.webp" alt="" fetchpriority="high" />
       <div class="container">
         <div class="hero-content">
-          <div class="pill-label">Private design partner program</div>
           <h1>Verified context for AI agents.</h1>
           <p class="hero-lead">
             enfer.ai is the truth layer between agents and the open web. Evaluate freshness, evidence, and contradiction risk <strong>before retrieved context becomes confident output.</strong>
@@ -619,7 +608,7 @@
           <span class="eyebrow">Problem</span>
           <h2 class="section-title">Search is not ground truth.</h2>
         </div>
-        <p class="section-copy">
+        <p class="section-copy copy-align-title">
           Search gives agents more context, but not necessarily better context. A retrieved page can be relevant and still be old, biased, promotional, copied, or wrong. Once it enters a model window, an agent reasons on it like truth.
         </p>
       </div>
@@ -662,7 +651,7 @@
           <span class="eyebrow">Early access</span>
           <h2 class="section-title">For teams whose context has consequences.</h2>
         </div>
-        <p class="section-copy">
+        <p class="section-copy copy-align-title">
           We are speaking with teams building agents, retrieval infrastructure, research tools, and AI workflows where source quality determines whether a system can be trusted.
         </p>
       </div>
