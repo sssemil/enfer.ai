@@ -390,10 +390,50 @@
     }
 
     .footer-inner {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) auto;
       justify-content: space-between;
-      align-items: center;
-      gap: 24px;
+      align-items: start;
+      gap: 36px;
+    }
+
+    .footer-operator {
+      color: var(--body);
+    }
+
+    .footer-heading {
+      display: block;
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .footer-operator address {
+      font-style: normal;
+      line-height: 1.65;
+    }
+
+    .footer-operator .company {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .footer-operator a {
+      transition: color 160ms ease;
+    }
+
+    .footer-operator a:hover {
+      color: var(--ink);
+    }
+
+    .footer-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 20px;
     }
 
     .footer-links {
@@ -515,7 +555,11 @@
       }
 
       .footer-inner {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 34px;
+      }
+
+      .footer-meta {
         align-items: flex-start;
       }
     }
@@ -630,10 +674,22 @@
 
   <footer>
     <div class="container footer-inner">
-      <span>&copy; 2026 enfer.ai. Built by TQDM Inc.</span>
-      <div class="footer-links">
-        <a href="mailto:emil@enfer.ai">Contact Us</a>
-        <a href="https://calendar.app.google/33VKff1KQP5UJqM66">Schedule</a>
+      <div class="footer-operator">
+        <span class="footer-heading">Operator</span>
+        <address>
+          <span class="company">TQDM Inc.</span><br />
+          1111B S Governors Ave, STE 23256<br />
+          Dover, DE 19904, USA<br />
+          <a href="mailto:contact@tqdm.org">contact@tqdm.org</a><br />
+          <a href="tel:+18145245685">+1 (814) 524-5685</a>
+        </address>
+      </div>
+      <div class="footer-meta">
+        <div class="footer-links">
+          <a href="mailto:emil@enfer.ai">Contact Us</a>
+          <a href="https://calendar.app.google/33VKff1KQP5UJqM66">Schedule</a>
+        </div>
+        <span>&copy; 2026 enfer.ai. Built by TQDM Inc.</span>
       </div>
     </div>
   </footer>
