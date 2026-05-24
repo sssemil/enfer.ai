@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>enfer.ai — Truth layer for AI agents</title>  <meta name="description" content="enfer.ai is building the truth layer between AI agents and the open web." />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="a8ce69ae-2b74-4d2b-a080-43ade2ea53de"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --font-sans: "Geist", system-ui, sans-serif;
+      --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+      --color-accent-100: #ef6f2e;
+      --color-accent-200: #ee6018;
+      --color-accent-300: #d15010;
+
+      --background: #020202;
+      --foreground: #eee;
+      --color-base-100: #d6d3d2;
+      --color-base-200: #ccc9c7;
+      --color-base-300: #b8b3b0;
+      --color-base-400: #a49d9a;
+      --color-base-500: #8a8380;
+      --color-base-600: #5c5855;
+      --color-base-700: #4d4947;
+      --color-base-800: #3d3a39;
+      --color-base-900: #2e2c2b;
+      --color-base-1000: #1f1d1c;
+
+      --btn-primary-bg: #1f1d1c;
+      --btn-primary-text: #fafafa;
+      --btn-secondary-bg: #fafafa;
+      --btn-secondary-text: #1f1d1c;
+      --btn-secondary-border: var(--color-base-700);
+
+      --radius-sm: 0.25rem;
+      --radius-lg: 0.5rem;
+      --radius-xl: 0.75rem;
+      --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --background: #eee;
+      --foreground: #020202;
+      --color-base-100: #1f1d1c;
+      --color-base-200: #2e2c2b;
+      --color-base-300: #3d3a39;
+      --color-base-400: #5c5855;
+      --color-base-500: #8a8380;
+      --color-base-600: #a49d9a;
+      --color-base-700: #b8b3b0;
+      --color-base-800: #ccc9c7;
+      --color-base-900: #d6d3d2;
+      --color-base-1000: #eee;
+
+      --btn-primary-bg: #eeeeee;
+      --btn-primary-text: #101010;
+      --btn-secondary-bg: #101010;
+      --btn-secondary-text: #eeeeee;
+      --btn-secondary-border: transparent;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    ::selection {
+      background: var(--color-accent-100);
+      color: var(--background);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--background);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-mono);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 16px;
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .header {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      align-items: center;
+      border-bottom: 1px solid var(--color-base-800);
+    }
+
+    .brand {
+      grid-column: span 2;
+      font-family: var(--font-sans);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--foreground);
+    }
+
+    .nav {
+      grid-column: span 2;
+      display: flex;
+      justify-content: flex-end;
+      gap: 18px;
+    }
+
+    .nav a {
+      position: relative;
+      font-size: 12px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: -0.015rem;
+      color: var(--color-base-400);
+      transition: color 150ms var(--ease-default);
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 1px;
+      background: currentColor;
+      transition: width 300ms ease-in-out;
+    }
+
+    .nav a:hover {
+      color: var(--color-accent-100);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      padding-top: 72px;
+      padding-bottom: 76px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      color: var(--color-base-500);
+      font-size: 12px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: -0.015rem;
+    }
+
+    .badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--color-accent-300);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 880px;
+      font-family: var(--font-mono);
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 100%;
+      letter-spacing: -0.04em;
+      color: var(--foreground);
+    }
+
+    .accent {
+      color: var(--color-accent-100);
+    }
+
+    .lead {
+      margin: 24px 0 0;
+      max-width: 640px;
+      color: var(--color-base-400);
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: -0.0175rem;
+    }
+
+    .lead strong {
+      color: var(--foreground);
+      font-weight: 400;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      width: max-content;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--color-base-700);
+      border-radius: 4px;
+      padding: 0 24px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 400;
+      letter-spacing: -0.0175rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 150ms var(--ease-default), border-color 150ms var(--ease-default), color 150ms var(--ease-default);
+    }
+
+    .btn.primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+    }
+
+    .btn.secondary {
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-text);
+      border-color: var(--btn-secondary-border);
+    }
+
+    .btn:hover {
+      opacity: 0.82;
+    }
+
+    .btn::before {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent 0px,
+        transparent 2px,
+        var(--color-base-500) 2px,
+        var(--color-base-500) 3px,
+        transparent 3px,
+        transparent 5px
+      );
+      background-size: 7.07px 7.07px;
+      animation: slidePattern 2s linear infinite;
+      transition: opacity 100ms var(--ease-default) 75ms;
+    }
+
+    .btn.secondary::before {
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent 0px,
+        transparent 2px,
+        var(--color-base-600) 2px,
+        var(--color-base-600) 3px,
+        transparent 3px,
+        transparent 5px
+      );
+    }
+
+    .btn:hover::before {
+      opacity: 1;
+    }
+
+    .btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .stealth-panel {
+      max-width: 480px;
+      margin-top: 36px;
+      border: 1px dashed var(--color-base-700);
+      border-radius: var(--radius-lg);
+      background: transparent;
+      padding: 18px;
+    }
+
+    .stealth-panel p {
+      margin: 0;
+      color: var(--color-base-400);
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: -0.0175rem;
+    }
+
+    .stealth-panel strong {
+      color: var(--foreground);
+      font-weight: 400;
+    }
+
+    section.block {
+      padding-top: 80px;
+      padding-bottom: 80px;
+      border-top: 1px solid var(--color-base-800);
+    }
+
+    .section-label {
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--foreground);
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 100%;
+      letter-spacing: -0.04em;
+    }
+
+    .section-copy {
+      margin: 0;
+      max-width: 640px;
+      color: var(--color-base-400);
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: -0.0175rem;
+    }
+
+    .mono-list {
+      display: grid;
+      gap: 8px;
+      max-width: 720px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mono-list li {
+      border: 1px dashed var(--color-base-700);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      color: var(--color-base-400);
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: -0.0175rem;
+      transition: border-color 150ms var(--ease-default), color 150ms var(--ease-default);
+    }
+
+    .mono-list li:hover {
+      border-color: var(--color-accent-100);
+      color: var(--foreground);
+    }
+
+    .mono-list strong {
+      color: var(--foreground);
+      font-weight: 400;
+    }
+
+    .cta-card {
+      margin-top: 8px;
+      margin-bottom: 36px;
+      border: 1px solid var(--color-base-800);
+      border-radius: var(--radius-lg);
+      background: var(--color-base-900);
+      padding: 32px;
+    }
+
+    .cta-card h2 {
+      margin: 0 0 18px;
+      max-width: 520px;
+      font-family: var(--font-sans);
+      color: var(--foreground);
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 110%;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-card p {
+      margin: 0;
+      max-width: 600px;
+      color: var(--color-base-400);
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: -0.0175rem;
+    }
+
+    footer {
+      margin: 0 16px 16px;
+      border: 1px solid var(--color-base-800);
+      border-radius: var(--radius-lg);
+      background: var(--color-base-900);
+      padding: 28px 32px;
+      color: var(--color-base-500);
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: -0.0175rem;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    @keyframes slidePattern {
+      0% { background-position: 0 0; }
+      100% { background-position: 28.28px -28.28px; }
+    }
+
+
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        column-gap: 24px;
+        padding-left: 36px;
+        padding-right: 36px;
+      }
+
+      .brand {
+        grid-column: span 3;
+      }
+
+      .nav {
+        grid-column: 7 / span 6;
+      }
+
+      .hero {
+        padding-top: 112px;
+        padding-bottom: 104px;
+      }
+
+      .hero-copy {
+        grid-column: span 7;
+      }
+
+      .hero-side {
+        grid-column: 9 / span 4;
+        align-self: end;
+      }
+
+      h1 {
+        font-size: 60px;
+      }
+
+      .section-label {
+        grid-column: span 3;
+        margin-bottom: 0;
+      }
+
+      .section-body {
+        grid-column: 5 / span 7;
+      }
+
+      .section-title {
+        font-size: 48px;
+      }
+
+      .cta-card {
+        max-width: 720px;
+        padding: 48px;
+      }
+
+      .cta-card h2 {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 64px;
+        padding-bottom: 64px;
+      }
+
+      .actions,
+      .btn {
+        width: 100%;
+      }
+
+      .btn {
+        justify-content: center;
+      }
+
+      section.block {
+        padding-top: 64px;
+        padding-bottom: 64px;
+      }
+
+      .footer-grid {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="grid header">
+    <a class="brand" href="#top">enfer.ai</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#problem">Problem</a>
+      <a href="#layer">Layer</a>
+      <a href="#access">Access</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="grid hero" id="top" aria-label="Hero">
+      <div class="span-4 hero-copy">
+        <div class="badge">Stealth product in development</div>
+        <h1>The <span class="accent">truth</span> layer between AI agents and the open web.</h1>
+        <p class="lead">
+          Agents are starting to use search as memory. That works until the result is stale, sponsored, SEO-written, or just wrong. <strong>Bad input. Confident output.</strong>
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="FORM_LINK_HERE"><span>Request early access</span></a>
+          <a class="btn secondary" href="CALENDAR_LINK_HERE"><span>Book a short call</span></a>
+        </div>
+      </div>
+
+      <div class="span-4 hero-side">
+        <div class="stealth-panel" aria-label="Stealth product note">
+          <p><strong>In development.</strong> We’re working with a small group of design partners before saying too much publicly.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid block" id="problem">
+      <div class="span-4 section-label">
+        <div class="badge">Problem</div>
+        <h2 class="section-title">Search is not ground truth.</h2>
+      </div>
+      <div class="span-4 section-body">
+        <p class="section-copy">
+          Search gives agents more context, but not necessarily better context. A retrieved page can be relevant and still be old, biased, promotional, copied, or wrong. Once that enters the model window, the agent reasons on it like truth.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid block" id="layer">
+      <div class="span-4 section-label">
+        <div class="badge">Layer</div>
+        <h2 class="section-title">Context should be checked before it is trusted.</h2>
+      </div>
+      <div class="span-4 section-body">
+        <ul class="mono-list">
+          <li><strong>Freshness.</strong> Is the source current enough for the task?</li>
+          <li><strong>Source quality.</strong> Is it primary, credible, promotional, thin, or copied?</li>
+          <li><strong>Claim support.</strong> Can the important claims be traced back to real evidence?</li>
+          <li><strong>Contradiction risk.</strong> Does a better source disagree?</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="grid block" id="access">
+      <div class="span-4 section-label">
+        <div class="badge">Access</div>
+        <h2 class="section-title">Design partners for the messy part.</h2>
+      </div>
+      <div class="span-4 section-body">
+        <p class="section-copy">
+          We’re looking for a small group of teams building agents, RAG/search infra, research tools, or AI workflows where context quality is not a nice-to-have.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Call to action">
+      <div class="span-4 section-body cta-card">
+        <h2>Building agents where bad context breaks things?</h2>
+        <p>Request early access, book a short call, or email Emil directly. No newsletter spam. Just early conversations with teams who actually feel the problem.</p>
+        <div class="actions">
+          <a class="btn primary" href="FORM_LINK_HERE"><span>Request early access</span></a>
+          <a class="btn secondary" href="CALENDAR_LINK_HERE"><span>Book a short call</span></a>
+          <a class="btn primary" href="mailto:emil@esnx.xyz?subject=Design%20partner%20interest%20for%20enfer.ai"><span>Email Emil</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <span>© 2026 enfer.ai</span>
+      <span>Built by TQDM Inc.</span>
+    </div>
+  </footer>
+</body>
+</html>
+
